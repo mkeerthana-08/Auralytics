@@ -189,14 +189,15 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 /* ── Steps (sidebar) ──────────────────────────────────────── */
-.step { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+.step { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; }
 .step-n {
     width: 24px; height: 24px; border-radius: 50%;
-    background: #1e3a5f; border: 1.5px solid #3b82f6;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem; font-weight: 700; color: #93c5fd; flex-shrink: 0;
+    font-size: 0.7rem; font-weight: 700; color: #ffffff; flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
 }
-.step-t { font-size: 0.82rem; color: #94a3b8; line-height: 1.4; }
+.step-t { font-size: 0.82rem; color: #cbd5e1; line-height: 1.45; }
 
 /* ── Buttons ──────────────────────────────────────────────── */
 .stButton > button {
@@ -257,6 +258,137 @@ hr { border-color: #1a2540 !important; margin: 1.5rem 0 !important; }
 
 /* ── Image border ─────────────────────────────────────────── */
 [data-testid="stImage"] img { border-radius: 10px; }
+
+/* ── Sidebar Glossary & Specs ─────────────────────────────── */
+.glossary-card {
+    background: #0d1421;
+    border: 1px solid #1a2540;
+    border-radius: 12px;
+    padding: 0.85rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease-in-out;
+}
+.glossary-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+}
+.glossary-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.glossary-icon {
+    font-size: 1.15rem;
+}
+.glossary-title {
+    font-size: 0.85rem;
+    font-weight: 750;
+    color: #60a5fa;
+    letter-spacing: -0.01em;
+}
+.glossary-desc {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    line-height: 1.45;
+}
+.glossary-badge-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+.glossary-badge {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.badge-healthy {
+    background: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.badge-faulty {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+}
+.spec-item {
+    background: #0d1421;
+    border: 1px solid #1a2540;
+    border-radius: 10px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+.spec-item:hover {
+    border-color: #6366f1;
+}
+.spec-lbl {
+    font-size: 0.62rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+.spec-val {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a78bfa;
+    margin-top: 3px;
+}
+
+.deploy-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.deploy-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #0d1421;
+    border: 1px solid #1a2540;
+    border-radius: 10px;
+    padding: 9px 12px;
+    transition: all 0.2s ease-in-out;
+}
+.deploy-item:hover {
+    border-color: #10b981;
+}
+.deploy-icon {
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+.deploy-info {
+    display: flex;
+    flex-direction: column;
+}
+.deploy-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+.deploy-desc {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-top: 1px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -801,33 +933,97 @@ with st.sidebar:
 
     with st.expander("📖 Feature Glossary"):
         st.markdown("""
-        **MFCC** — frequency "texture" fingerprint (13 numbers).  
-        Healthy = smooth · Faulty = spiky / irregular
-
-        **ZCR** — zero-crossings per sample.  
-        Low = rhythmic (healthy) · High = erratic (fault)
-
-        **Spectral Centroid** — energy centre-of-mass (Hz).  
-        Rises as wear shifts energy to higher frequencies.
-        """)
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <span class="glossary-icon">📊</span>
+                <span class="glossary-title">MFCCs</span>
+            </div>
+            <div class="glossary-desc">Frequency "texture" fingerprint (13 coefficients). Captures overall sound envelope and quality.</div>
+            <div class="glossary-badge-row">
+                <span class="glossary-badge badge-healthy">Healthy: Smooth</span>
+                <span class="glossary-badge badge-faulty">Faulty: Spiky</span>
+            </div>
+        </div>
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <span class="glossary-icon">〰️</span>
+                <span class="glossary-title">Zero Crossing Rate</span>
+            </div>
+            <div class="glossary-desc">Rate of transitions across the zero amplitude axis. Measures signal chaotic oscillation.</div>
+            <div class="glossary-badge-row">
+                <span class="glossary-badge badge-healthy">Low: Rhythmic</span>
+                <span class="glossary-badge badge-faulty">High: Erratic Knocking</span>
+            </div>
+        </div>
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <span class="glossary-icon">📈</span>
+                <span class="glossary-title">Spectral Centroid</span>
+            </div>
+            <div class="glossary-desc">"Center of mass" of sound frequencies (pitch). Increases as energy shifts to higher bands.</div>
+            <div class="glossary-badge-row">
+                <span class="glossary-badge badge-healthy">Stable: Low Freq</span>
+                <span class="glossary-badge badge-faulty">Elevated: Friction</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with st.expander("🤖 Model Details"):
         st.markdown("""
-        **Algorithm:** Random Forest  
-        **Trees:** 200 (majority vote)  
-        **Feature vector:** 15 values  
-        **Classes:** Healthy · Worn · Critical  
-        **Training data:** Synthetic acoustic signals  
-        **Target accuracy:** ≥ 85 %  
-        **Frame strategy:** 1 s / 50 % overlap  
-        """)
+        <div class="spec-grid">
+            <div class="spec-item">
+                <span class="spec-lbl">Algorithm</span>
+                <span class="spec-val" style="color: #60a5fa; font-size: 0.72rem;">Random Forest</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-lbl">Estimators</span>
+                <span class="spec-val">200 Trees</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-lbl">Feature Size</span>
+                <span class="spec-val">15 Metrics</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-lbl">Target Classes</span>
+                <span class="spec-val">3 Labels</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-lbl">Data Split</span>
+                <span class="spec-val">80/20 Train</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-lbl">Min Accuracy</span>
+                <span class="spec-val" style="color: #10b981;">&ge; 85%</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with st.expander("🌐 Deployment"):
         st.markdown("""
-        **Hosting:** Streamlit Community Cloud  
-        **Auto-trains** on first launch if no model.pkl  
-        **Upload:** WAV / MP3 / FLAC / OGG supported  
-        """)
+        <div class="deploy-card">
+            <div class="deploy-item">
+                <span class="deploy-icon">☁️</span>
+                <div class="deploy-info">
+                    <div class="deploy-title">Streamlit Cloud</div>
+                    <div class="deploy-desc">Hosted on share.streamlit.io</div>
+                </div>
+            </div>
+            <div class="deploy-item">
+                <span class="deploy-icon">⚡</span>
+                <div class="deploy-info">
+                    <div class="deploy-title">On-Demand Training</div>
+                    <div class="deploy-desc">Auto-trains on first launch</div>
+                </div>
+            </div>
+            <div class="deploy-item">
+                <span class="deploy-icon">🔊</span>
+                <div class="deploy-info">
+                    <div class="deploy-title">File Types</div>
+                    <div class="deploy-desc">WAV, MP3, FLAC, OGG</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.divider()
     st.caption("Inspired by Caterpillar TIS/ADSD diagnostic workflows.")
