@@ -402,7 +402,46 @@ def _generate_pdf(report: dict, wfm_png: bytes, mfcc_png: bytes) -> bytes:
     status = report.get("status", "UNKNOWN").lower()
     sr_rgb = _STATUS_RGB.get(status, (107, 114, 128))
 
+    def clean_text(text):
+        if not isinstance(text, str):
+            text = str(text)
+        # Safely map common Unicode characters that are unsupported by the default Helvetica font
+        replacements = {
+            "\u2013": "-",       # en-dash
+            "\u2014": "-",       # em-dash
+            "\u2192": "->",      # arrow
+            "\u2022": "*",       # bullet
+            "\u00b7": "-",       # middle dot
+            "\u2264": "<=",      # less than or equal
+            "\u26a0": "[WARNING]", # warning sign emoji
+            "\ufe0f": "",        # variant selector
+        }
+        for orig, rep in replacements.items():
+            text = text.replace(orig, rep)
+        # Encode as Latin-1 with replacement to prevent FPDFUnicodeEncodingException on any other unsupported character
+        return text.encode("latin-1", errors="replace").decode("latin-1")
+
     class PDF(FPDF):
+        def cell(self, *args, **kwargs):
+            new_args = list(args)
+            if len(new_args) > 2:
+                new_args[2] = clean_text(new_args[2])
+            if "txt" in kwargs:
+                kwargs["txt"] = clean_text(kwargs["txt"])
+            elif "text" in kwargs:
+                kwargs["text"] = clean_text(kwargs["text"])
+            return super().cell(*new_args, **kwargs)
+
+        def multi_cell(self, *args, **kwargs):
+            new_args = list(args)
+            if len(new_args) > 2:
+                new_args[2] = clean_text(new_args[2])
+            if "txt" in kwargs:
+                kwargs["txt"] = clean_text(kwargs["txt"])
+            elif "text" in kwargs:
+                kwargs["text"] = clean_text(kwargs["text"])
+            return super().multi_cell(*new_args, **kwargs)
+
         def header(self):
             if self.page_no() > 1:
                 self.set_font("Helvetica", "B", 7)
