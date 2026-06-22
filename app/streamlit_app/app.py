@@ -490,6 +490,7 @@ def _generate_pdf(report: dict, wfm_png: bytes, mfcc_png: bytes) -> bytes:
         pdf.set_font("Helvetica", "", 9)
         pdf.set_text_color(*val_rgb)
         pdf.multi_cell(0, 6, value)
+        pdf.set_x(pdf.l_margin)
 
     def embed_image(png_bytes: bytes, caption: str, width: int = 178):
         buf = io.BytesIO(png_bytes)
