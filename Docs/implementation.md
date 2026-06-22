@@ -5,7 +5,7 @@
 
 > *"An experienced CAT technician hears a bad engine and knows. I taught a computer to do the same thing — and it generates the service report automatically."*
 
-**Build time:** ~2–3 weeks · **Difficulty:** Medium · **Domain:** Audio Signal Processing + Classical ML
+ **Domain:** Audio Signal Processing + Classical ML
 
 ---
 
