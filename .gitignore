@@ -1,0 +1,53 @@
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ─── Machine-Learning Artefacts ──────────────────────────────────────────────
+# Un-comment the line below if you do NOT want to commit the trained model.
+# models/model.pkl
+
+# ─── Audio Data (large binary files) ─────────────────────────────────────────
+data/raw/healthy/*.wav
+data/raw/healthy/*.mp3
+data/raw/healthy/*.flac
+data/raw/worn/*.wav
+data/raw/worn/*.mp3
+data/raw/worn/*.flac
+data/raw/critical/*.wav
+data/raw/critical/*.mp3
+data/raw/critical/*.flac
+
+# ─── Processed Features CSV ──────────────────────────────────────────────────
+data/processed/features.csv
+
+# ─── Notebooks ───────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── IDEs ────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Streamlit secrets ───────────────────────────────────────────────────────
+.streamlit/secrets.toml
+
+# ─── Temporary ───────────────────────────────────────────────────────────────
+*.tmp
+*.temp
+*.log
